@@ -10,7 +10,7 @@ Este proyecto implementa una arquitectura basada en **Microfrontend**, utilizand
 /project-root
 │── shell/              # Aplicación principal (Host)
 │── pokemon-detail/     # Primer microfrontend
-│── history/     # Segundo microfrontend
+│── history/            # Segundo microfrontend
 │── shared/             # Módulos y librerías compartidas
 │── README.md           # Documentación
 ```
@@ -32,10 +32,10 @@ cd shell
 pnpm install
 
 # Instalar dependencias en los microfrontends
-cd ../pokemon-detail
+cd pokemon-detail
 pnpm install
 
-cd ../history
+cd history
 pnpm install
 ```
 
@@ -54,11 +54,11 @@ Acceder a: `http://localhost:3000`
 
 ```sh
 # Microfrontend 1
-cd ../microfrontend1
+cd pokemon-detail
 pnpm run build && pnpm serve
 
 # Microfrontend 2
-cd ../microfrontend2
+cd history
 pnpm run build && pnpm serve
 ```
 
