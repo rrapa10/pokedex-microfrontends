@@ -11,7 +11,6 @@ Este proyecto implementa una arquitectura basada en **Microfrontend**, utilizand
 │── shell/              # Aplicación principal (Host)
 │── pokemon-detail/     # Primer microfrontend
 │── history/            # Segundo microfrontend
-│── shared/             # Módulos y librerías compartidas
 │── README.md           # Documentación
 ```
 
