@@ -14,6 +14,14 @@ Este proyecto implementa una arquitectura basada en **Microfrontend**, utilizand
 │── README.md           # Documentación
 ```
 
+## 🛠 Tecnologías Utilizadas
+
+- React + Vite
+- Module Federation (Webpack 5)
+- Material-UI (MUI)
+- TypeScript
+- LocalStorage (para persistencia de datos en `historia`)
+
 ## 🚀 Instalación y Configuración
 
 ### 1️⃣ Clonar el repositorio
