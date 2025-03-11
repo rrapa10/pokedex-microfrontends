@@ -93,13 +93,13 @@ const PokedexApp = () => {
       <Container>
         {/* 📌 Imagen */}
         <Card
-          sx={{ borderRadius: "50%", overflow: "hidden", marginBottom: "20px" }}
+          sx={{  overflow: "hidden" }}
         >
           <CardMedia
             component="img"
             image={squirtleImage}
             alt="Squirtle"
-            sx={{ width: 150, height: 150 }}
+      
           />
         </Card>
 
