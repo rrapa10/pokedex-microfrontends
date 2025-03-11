@@ -1,0 +1,33 @@
+@font-face {
+  font-family: "Aero";
+  src: url("/assets/fonts/Aero.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.pokemon-card {
+  padding: 16px;
+  text-align: center;
+  font-family: "Aero";
+}
+
+.pokemon-name {
+  font-weight: bold;
+  font-family: "Aero";
+
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.pokemon-image {
+  width: 100px;
+  height: 100px;
+  animation: bounce 1.5s infinite ease-in-out;
+}
