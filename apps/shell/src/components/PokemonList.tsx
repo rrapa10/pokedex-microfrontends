@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Box, Card, Typography, Button, CircularProgress } from "@mui/material";
 import "../index.css";
+import lightModeIcon from "../assets/light-mode.png";
+import darkModeIcon from "../assets/dark-mode.png";
 
-const API_TYPES = ["fire", "water", "electric", "dragon", "ghost"];
+const API_TYPES = ["fire", "water", "electric", "dragon", "ghost", "grass"];
 
 interface PokemonEntry {
   pokemon: { id: number; name: string; url: string };
@@ -23,6 +25,16 @@ interface PokemonListProps {
   darkMode: boolean;
   setDarkMode: (mode: boolean) => void;
 }
+
+// Definir colores según el tipo de Pokémon
+const typeColors: Record<string, string> = {
+  fire: "rgba(255, 165, 0, 0.8)", // Naranja
+  water: "rgba(0, 191, 255, 0.8)", // Azul
+  electric: "rgba(255, 255, 0, 0.8)", // Amarillo
+  dragon: "rgba(255, 0, 0, 0.8)", // Rojo
+  ghost: "rgba(169, 169, 169, 0.8)", // Plomo
+  grass: "rgba(0, 128, 0, 0.8)", // Verde
+};
 
 const PokemonList: React.FC<PokemonListProps> = ({
   name,
@@ -78,8 +90,23 @@ const PokemonList: React.FC<PokemonListProps> = ({
         mb={2}
       >
         <Typography variant="h5">Bienvenido, {name}</Typography>
-        <Button variant="contained" onClick={() => setDarkMode(!darkMode)}>
-          {darkMode ? "Modo Claro" : "Modo Oscuro"}
+        <Button
+          onClick={() => setDarkMode(!darkMode)}
+          sx={{
+            background: "none",
+            border: "none",
+            padding: 0,
+            minWidth: "auto",
+            cursor: "pointer",
+            "&:hover": { opacity: 0.8 },
+          }}
+        >
+          <img
+            src={darkMode ? lightModeIcon : darkModeIcon}
+            alt="Modo Oscuro"
+            width={70}
+            height={70}
+          />
         </Button>
       </Box>
 
@@ -101,22 +128,35 @@ const PokemonList: React.FC<PokemonListProps> = ({
                     padding: 2,
                     backgroundColor: darkMode ? "#555" : "#f9f9f9",
                     textAlign: "center",
+                    position: "relative",
+                    boxShadow: `0px 0px 5px 3px ${typeColors[type] || "gray"}`,
                   }}
                 >
                   <Typography
                     className="pokemon-name"
                     sx={{
                       color: darkMode ? "#fff" : "#000",
-                      marginBottom: "1rem"
+                      marginBottom: "0.5rem",
                     }}
                   >
                     {p.name.charAt(0).toUpperCase() + p.name.slice(1)}
                   </Typography>
-                  <Typography>
-                    {p.id}
+                  <Typography
+                    sx={{
+                      color: darkMode ? "#fff" : "#000",
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    # {p.id}
                   </Typography>
                   {p.image ? (
-                    <img   className="pokemon-image"  src={p.image} alt={p.name} width={100} height={100} />
+                    <img
+                      className="pokemon-image"
+                      src={p.image}
+                      alt={p.name}
+                      width={100}
+                      height={100}
+                    />
                   ) : (
                     <Typography variant="body2">
                       Imagen no disponible
