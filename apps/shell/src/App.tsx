@@ -45,10 +45,7 @@ const Container = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   height: "100vh",
   width: "100vw",
-  background: theme.palette.background.default,
-
-  borderRadius: "20px",
-  boxShadow: `0px 0px 15px ${theme.palette.primary.main}`,
+  background: theme.palette.background.default
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -90,10 +87,15 @@ const PokedexApp = () => {
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <Container>
-        {/* 📌 Imagen */}
+      <Container >
+
+        {/* 📌 Título */}
+        <Typography variant="h5" fontWeight="bold" color="primary">
+          Pokédex Ingreso
+        </Typography>
+        
         <Card
-          sx={{  overflow: "hidden" }}
+          sx={{  overflow: "hidden", margin: 0, background: "#E0E0E0", boxShadow:"unset"}}
         >
           <CardMedia
             component="img"
@@ -103,10 +105,7 @@ const PokedexApp = () => {
           />
         </Card>
 
-        {/* 📌 Título */}
-        <Typography variant="h5" fontWeight="bold" color="primary">
-          Pokédex Ingreso
-        </Typography>
+        
 
         {/* 🌗 Switch de Modo Oscuro */}
         <Box display="flex" alignItems="center" gap={1} marginBottom={2}>

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Box, Card, Typography, Button, CircularProgress } from "@mui/material";
+import { Box, Card, Typography, Button, CircularProgress, Modal } from "@mui/material";
 import "../index.css";
 import lightModeIcon from "../assets/light-mode.png";
 import darkModeIcon from "../assets/dark-mode.png";
+import PokemonShellSearch from "./PokemonShellSearch"; // Asegúrate de importar el componente
 
 const API_TYPES = ["fire", "water", "electric", "dragon", "ghost", "grass"];
 
@@ -26,23 +27,10 @@ interface PokemonListProps {
   setDarkMode: (mode: boolean) => void;
 }
 
-// Definir colores según el tipo de Pokémon
-const typeColors: Record<string, string> = {
-  fire: "rgba(255, 165, 0, 0.8)", // Naranja
-  water: "rgba(0, 191, 255, 0.8)", // Azul
-  electric: "rgba(255, 255, 0, 0.8)", // Amarillo
-  dragon: "rgba(255, 0, 0, 0.8)", // Rojo
-  ghost: "rgba(169, 169, 169, 0.8)", // Plomo
-  grass: "rgba(0, 128, 0, 0.8)", // Verde
-};
-
-const PokemonList: React.FC<PokemonListProps> = ({
-  name,
-  darkMode,
-  setDarkMode,
-}) => {
+const PokemonList: React.FC<PokemonListProps> = ({ name, darkMode, setDarkMode }) => {
   const [pokemonData, setPokemonData] = useState<PokemonData>({});
   const [loading, setLoading] = useState(true);
+  const [searchOpen, setSearchOpen] = useState(false); // Estado para abrir/cerrar el modal
 
   useEffect(() => {
     const fetchPokemons = async () => {
@@ -83,13 +71,18 @@ const PokemonList: React.FC<PokemonListProps> = ({
       }}
     >
       {/* Encabezado */}
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={2}
-      >
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
         <Typography variant="h5">Bienvenido, {name}</Typography>
+        
+        {/* Botón para abrir el modal de búsqueda */}
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={() => setSearchOpen(true)}
+        >
+          Buscar Pokémon
+        </Button>
+        
         <Button
           onClick={() => setDarkMode(!darkMode)}
           sx={{
@@ -101,12 +94,7 @@ const PokemonList: React.FC<PokemonListProps> = ({
             "&:hover": { opacity: 0.8 },
           }}
         >
-          <img
-            src={darkMode ? lightModeIcon : darkModeIcon}
-            alt="Modo Oscuro"
-            width={70}
-            height={70}
-          />
+          <img src={darkMode ? lightModeIcon : darkModeIcon} alt="Modo Oscuro" width={70} height={70} />
         </Button>
       </Box>
 
@@ -128,8 +116,6 @@ const PokemonList: React.FC<PokemonListProps> = ({
                     padding: 2,
                     backgroundColor: darkMode ? "#555" : "#f9f9f9",
                     textAlign: "center",
-                    position: "relative",
-                    boxShadow: `0px 0px 5px 3px ${typeColors[type] || "gray"}`,
                   }}
                 >
                   <Typography
@@ -150,17 +136,9 @@ const PokemonList: React.FC<PokemonListProps> = ({
                     # {p.id}
                   </Typography>
                   {p.image ? (
-                    <img
-                      className="pokemon-image"
-                      src={p.image}
-                      alt={p.name}
-                      width={100}
-                      height={100}
-                    />
+                    <img className="pokemon-image" src={p.image} alt={p.name} width={100} height={100} />
                   ) : (
-                    <Typography variant="body2">
-                      Imagen no disponible
-                    </Typography>
+                    <Typography variant="body2">Imagen no disponible</Typography>
                   )}
                 </Card>
               ))}
@@ -168,6 +146,13 @@ const PokemonList: React.FC<PokemonListProps> = ({
           </Box>
         ))
       )}
+
+      {/* MODAL DE BÚSQUEDA */}
+      <Modal open={searchOpen} onClose={() => setSearchOpen(false)} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Box sx={{ width: "100vw", height: "100vh", backgroundColor: darkMode ? "#222" : "#fff", p: 3, overflow: "auto" }}>
+          <PokemonShellSearch onClose={() => setSearchOpen(false)} darkMode={darkMode} />
+        </Box>
+      </Modal>
     </Box>
   );
 };
