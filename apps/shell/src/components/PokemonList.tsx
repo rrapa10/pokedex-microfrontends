@@ -1,9 +1,13 @@
+if (window.__MF_RUNTIME__) {
+  window.__MF_RUNTIME__.init();
+}
+
 import { useState, useEffect } from "react";
 import { Box, Card, Typography, Button, CircularProgress, Modal } from "@mui/material";
 import "../index.css";
 import lightModeIcon from "../assets/light-mode.png";
 import darkModeIcon from "../assets/dark-mode.png";
-import PokemonShellSearch from "./PokemonShellSearch"; // Asegúrate de importar el componente
+import PokemonShellSearch from "./PokemonShellSearch";
 
 const API_TYPES = ["fire", "water", "electric", "dragon", "ghost", "grass"];
 
@@ -30,7 +34,7 @@ interface PokemonListProps {
 const PokemonList: React.FC<PokemonListProps> = ({ name, darkMode, setDarkMode }) => {
   const [pokemonData, setPokemonData] = useState<PokemonData>({});
   const [loading, setLoading] = useState(true);
-  const [searchOpen, setSearchOpen] = useState(false); // Estado para abrir/cerrar el modal
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     const fetchPokemons = async () => {
@@ -62,6 +66,14 @@ const PokemonList: React.FC<PokemonListProps> = ({ name, darkMode, setDarkMode }
     fetchPokemons();
   }, []);
 
+  // Función para emitir el evento al Shell cuando se selecciona un Pokémon
+  const handleSelectPokemon = (pokemon: Pokemon) => {
+    /*if (window.__MF_RUNTIME__) {
+      window.__MF_RUNTIME__.emit("pokemonSelected", pokemon);
+    }*/
+    //console.log("window.__MF_RUNTIME__", window.__MF_RUNTIME__)
+  };
+
   return (
     <Box
       sx={{
@@ -73,16 +85,12 @@ const PokemonList: React.FC<PokemonListProps> = ({ name, darkMode, setDarkMode }
       {/* Encabezado */}
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
         <Typography variant="h5">Bienvenido, {name}</Typography>
-        
+
         {/* Botón para abrir el modal de búsqueda */}
-        <Button 
-          variant="contained" 
-          color="primary" 
-          onClick={() => setSearchOpen(true)}
-        >
+        <Button variant="contained" color="primary" onClick={() => setSearchOpen(true)}>
           Buscar Pokémon
         </Button>
-        
+
         <Button
           onClick={() => setDarkMode(!darkMode)}
           sx={{
@@ -109,13 +117,16 @@ const PokemonList: React.FC<PokemonListProps> = ({ name, darkMode, setDarkMode }
           <Box key={type} mt={3}>
             <Typography variant="h6">{type.toUpperCase()}</Typography>
             <Box display="flex" flexWrap="wrap" gap={2}>
-              {pokemonData[type]?.map((p, i) => (
+              {pokemonData[type]?.map((p) => (
                 <Card
-                  key={i}
+                  key={p.id}
+                  onClick={() => handleSelectPokemon(p)}
                   sx={{
                     padding: 2,
                     backgroundColor: darkMode ? "#555" : "#f9f9f9",
                     textAlign: "center",
+                    cursor: "pointer",
+                    "&:hover": { backgroundColor: darkMode ? "#666" : "#ddd" },
                   }}
                 >
                   <Typography

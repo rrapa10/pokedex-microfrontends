@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardMedia, Typography, Grid } from "@mui/material";
-import { motion } from "framer-motion";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Grid,
+  Box,
+  ThemeProvider,
+  useTheme,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 
 interface Pokemon {
@@ -11,6 +19,7 @@ interface Pokemon {
 
 const PokemonHistory = () => {
   const [history, setHistory] = useState<Pokemon[]>([]);
+  const theme = useTheme(); // Usa el tema global
 
   useEffect(() => {
     const storedHistory = JSON.parse(
@@ -20,46 +29,51 @@ const PokemonHistory = () => {
   }, []);
 
   return (
-    <>
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <Typography variant="h5" sx={{ textAlign: "center", mt: 3 }}>
-        Últimos Pokémon Vistos
-      </Typography>
-     <>
+    <ThemeProvider theme={theme}>
+      <Box sx={{ textAlign: "center", padding: "10px" }}>
+        <Typography variant="h5" color="primary" sx={{ mb: 2 }}>
+          Últimos Pokémon Vistos
+        </Typography>
         {history.length === 0 ? (
-          <Typography variant="body1">No hay historial aún.</Typography>
+          <Typography variant="body1" color="textPrimary">
+            No hay historial aún.
+          </Typography>
         ) : (
-          history.map((pokemon) => (
-            <Grid item key={pokemon.id}>
-              <motion.div whileHover={{ scale: 1.05 }}>
+          <Grid container spacing={2} justifyContent="center">
+            {history.map((pokemon, index) => (
+              <Grid item key={pokemon.id || index}>
                 <Link
                   to={`/pokemon/${pokemon.id}`}
                   style={{ textDecoration: "none" }}
                 >
-                  <Card sx={{ width: 150, textAlign: "center", p: 1 }}>
+                  <Card
+                    sx={{
+                      width: 120,
+                      background: theme.palette.background.default,
+                      color: theme.palette.text.primary,
+                      textAlign: "center",
+                      p: 1,
+                    }}
+                  >
                     <CardMedia
                       component="img"
-                      height="100"
+                      height="80"
                       image={pokemon.sprite}
                       alt={pokemon.name}
                     />
                     <CardContent>
-                      <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                      <Typography variant="body2" fontWeight="bold">
                         {pokemon.name.toUpperCase()}
                       </Typography>
                     </CardContent>
                   </Card>
                 </Link>
-              </motion.div>
-            </Grid>
-          ))
+              </Grid>
+            ))}
+          </Grid>
         )}
-      </>
-    </motion.div></>
+      </Box>
+    </ThemeProvider>
   );
 };
 

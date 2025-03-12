@@ -1,15 +1,24 @@
-import { useParams } from "react-router-dom";
-import { Typography } from "@mui/material";
-import { usePokemon } from "../hooks/usePokemon";
-import LoadingIndicator from "../components/LoadingIndicator";
+import { useState, useEffect } from "react";
 import PokemonCard from "../components/PokemonCard";
 
 const PokemonDetail = () => {
-  const { id } = useParams<{ id: string }>();
-  const { pokemon, loading } = usePokemon(id);
+  const [pokemon, setPokemon] = useState<any | null>(null);
 
-  if (loading) return <LoadingIndicator />;
-  if (!pokemon) return <Typography>Error al cargar el Pokémon</Typography>;
+  useEffect(() => {
+    const handlePokemonSelected = (event: any) => {
+      setPokemon(event.detail);
+    };
+
+    window.addEventListener("pokemonSelected", handlePokemonSelected);
+
+    return () => {
+      window.removeEventListener("pokemonSelected", handlePokemonSelected);
+    };
+  }, []);
+
+  if (!pokemon) return <p>Selecciona un Pokémon</p>;
+
+
 
   return <PokemonCard name={pokemon.name} image={pokemon.sprites.front_default} />;
 };

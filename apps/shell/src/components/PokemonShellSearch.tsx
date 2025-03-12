@@ -169,13 +169,16 @@ const PokemonShellSearch: React.FC<PokemonShellSearchProps> = ({
                 padding: 2,
                 backgroundColor: darkMode ? "#555" : "#f9f9f9",
                 textAlign: "center",
-                width: 150,
+                width: 300,
+                height: 300
               }}
             >
               <Typography
                 sx={{
                   color: darkMode ? "#fff" : "#000",
                   marginBottom: "0.5rem",
+                  fontWeight: "bolder",
+                  fontSize:"1.5rem"
                 }}
               >
                 {p.name.charAt(0).toUpperCase() + p.name.slice(1)}
@@ -184,12 +187,13 @@ const PokemonShellSearch: React.FC<PokemonShellSearchProps> = ({
                 sx={{
                   color: darkMode ? "#fff" : "#000",
                   marginBottom: "0.5rem",
+                  fontSize:"1.3rem"
                 }}
               >
                 # {p.id}
               </Typography>
               {p.image ? (
-                <img src={p.image} alt={p.name} width={100} height={100} />
+                <img src={p.image} alt={p.name} width={200} height={200} />
               ) : (
                 <Typography variant="body2">Imagen no disponible</Typography>
               )}
